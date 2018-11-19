@@ -1,0 +1,98 @@
+<div class="page-header text-left">
+  <h1>SQL Server 2017 sur Linux - "Automatic Tuning"</h1>
+</div>
+<div class="row">
+    <div class="col-md-6 text-center">
+        <span><h3>Performance transactionnelle</h3></span>
+        <span>@ViewData["OSDescription"]</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 text-center">
+        <svg class="img-responsive" width="600" height="600"></svg>
+        <h4><span id="speed">0</span> requ&ecirc;tes par seconde.</h4>
+    </div>
+    <div class="col-md-6 text-left">
+        <img class="img-responsive" src="@ViewData["ArchitectureImage"]" alt="">
+        <hr>
+        <h3>Requ&ecirc;te T-SQL:</h3>
+        <h5>
+        SELECT AVG( UnitPrice * Quantity )<br>
+        FROM Sales.OrderLines<br>
+        WHERE PackageTypeID = @@packagetypeid;
+        </h5>
+        <hr>
+
+        <h3>Activation du "FORCE LAST GOOD PLAN":</h3>
+        <h5>
+        ALTER DATABASE current<br>
+        SET AUTOMATIC_TUNING ( FORCE_LAST_GOOD_PLAN = ON);
+        </h5>
+    </div>
+    <div class="col-md-3 text-center">
+        <h3>D&eacute;gradation artificielle:</h3>
+        <span><button id="regression" type="button" class="btn btn-danger pull-right"><h4>R&eacute;gression</h4></button></span>
+    </div>
+    <div class="col-md-3 text-center">
+        <h3>"Automatic Tuning"</h3>
+        <h4>OFF
+        <label class="switch">
+            <input id="OnOffSwitch" type="checkbox" name="OnOffSwitch"/>
+            <span class="slider round" vertical-align="middle"></span>
+        </label>
+        ON</h4>
+    </div>
+</div>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="http://vizjs.org/viz.v1.0.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="~/js/GraphVizGauge.js"></script>
+<script src="/api/demo/init"></script>
+<script>
+    var gauge = new GraphVizGauge("svg", { to: 375, tick: 25 });
+    var perfData = [];
+    setInterval(function () {
+        $.ajax({
+            url: "/api/demo",
+            success: function (result) {
+                if (result.y == 0) {
+                    console.log("No response");
+                    return;
+                }
+                (perfData.length == 10) && perfData.shift();
+                if (result > 0)
+                    perfData.push(result);
+                console.log(perfData);
+                var total = 0;
+                for (i = 0; i < perfData.length; i++) { total += perfData[i]; }
+                var avgDurationMS = total / perfData.length;
+                var perf = Math.round(1000 / (avgDurationMS));
+                console.log(perf);
+                gauge.Data(perf);
+                $("#speed").text(perf);
+            }
+        });
+    }, 200);
+
+    $("button#regression").on("click", function () {
+        $.ajax("/api/demo/regression");
+    });
+
+    $("#OnOffSwitch").on("change", function () {
+        if("#OnOffSwitch".checked) {
+            $.ajax("/api/demo/on");
+        } else {
+            $.ajax("/api/demo/off");
+        }
+    });
+
+    $("#on").on("change", function () {
+        $.ajax("/api/demo/on");
+    });
+
+    $("#off").on("change", function () {
+        $.ajax("/api/demo/off");
+    });
+</script>
+<script src="/api/demo/init"></script>

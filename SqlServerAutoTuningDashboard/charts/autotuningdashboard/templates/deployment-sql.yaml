@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql
+  labels:
+    app: sql
+spec:
+  selector:
+    matchLabels:
+      app: sql
+  template:
+    metadata:
+      labels:
+        app: sql
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+      - image: {{ .Values.imageCredentials.registry }}/{{ .Values.sql.image.name }}:{{ .Values.sql.image.tag }}
+        name: sql
+        env:
+        - name: ACCEPT_EULA
+          value: 'Y'
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: password
+        ports:
+        - containerPort: {{ .Values.sql.port }}
+          name: sql

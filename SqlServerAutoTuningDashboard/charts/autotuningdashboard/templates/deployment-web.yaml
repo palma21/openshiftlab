@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+      - image: {{ .Values.imageCredentials.registry }}/{{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+        name: web
+        env:
+        - name: ConnectionStrings__DefaultConnection__Server
+          value: {{ .Values.sql.server }}
+        - name: ConnectionStrings__DefaultConnection__Port
+          value: '{{ .Values.sql.port }}'
+        - name: ConnectionStrings__DefaultConnection__Database
+          value: {{ .Values.sql.database }}
+        - name: ConnectionStrings__DefaultConnection__UserId
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: userid
+        - name: ConnectionStrings__DefaultConnection__Password
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: password
+        ports:
+        - containerPort: {{ .Values.web.port }}
+          name: web
