@@ -15,7 +15,7 @@ Agenda
 
 [CHALLENGE -7: Monitoring openshift with azure oms](#challenge--7-monitoring-openshift-with-azure-oms)
 
-[CHALLENGE -8: Azure DevOps, Azure Container Registry and Helm](#challenge--8-azure-devops,-azure-container-registry-and-helm) 
+[CHALLENGE -8: Azure DevOps Azure Container Registry and Helm](#challenge--8-azure-devops-azure-container-registry-and-helm) 
 
 [CHALLENGE -9: Red Hat Cloud Forms on Azure](#challenge--9-red-hat-cloud-forms-on-azure)
 
@@ -608,7 +608,7 @@ oc describe daemonset oms
 
 ![](./MediaFolder/media/image74.JPG)
 
-CHALLENGE -8: Azure DevOps, Azure Container Registry and Helm
+CHALLENGE -8: Azure DevOps Azure Container Registry and Helm
 ==========================================
 
 [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) is a cloud service for collaborating on code development. It provides an integrated set of features that you access through your web browser or IDE client, including the following:
