@@ -15,7 +15,9 @@ Agenda
 
 [CHALLENGE -7: Monitoring openshift with azure oms](#challenge--7-monitoring-openshift-with-azure-oms)
 
-[CHALLENGE -8: Red Hat Cloud Forms on Azure](#challenge--8-red-hat-cloud-forms-on-azure)
+[CHALLENGE -8: Azure DevOps, Azure Container Registry and Helm](#challenge--8-azure-devops,-azure-container-registry-and-helm) 
+
+[CHALLENGE -9: Red Hat Cloud Forms on Azure](#challenge--9-red-hat-cloud-forms-on-azure)
 
 Objectives and pre-requisites
 =============================
@@ -606,8 +608,58 @@ oc describe daemonset oms
 
 ![](./MediaFolder/media/image74.JPG)
 
+CHALLENGE -8: Azure DevOps, Azure Container Registry and Helm
+==========================================
 
-CHALLENGE -8: Red Hat Cloud Forms on Azure
+[Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) is a cloud service for collaborating on code development. It provides an integrated set of features that you access through your web browser or IDE client, including the following:
+
+-   Git repositories for source control of your code
+-   Build and release services to support continuous integration and delivery of your apps
+-   Agile tools to support planning and tracking your work, code defects, and issues using Kanban and Scrum methods
+-   A variety of tools to test your apps, including manual/exploratory testing, load testing, and continuous testing
+-   Highly customizable dashboards for sharing progress and trends
+-   Built-in wiki for sharing information with your team
+
+So when you want a service with quick setup, maintenance-free operations, easy collaboration across domains, elastic scale, and rock-solid security, Azure DevOps is a great solution. 
+
+[Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry) Azure Container Registry is a managed and geo-distributed Docker registry service based on the open-source Docker Registry 2.0. Create and maintain Azure container registries to store and manage your private Docker container images. 
+
+Use can use container registries in Azure with your existing container development and deployment pipelines. Use Azure Container Registry Build (ACR Build) to securely and quickly build container images in Azure. Build on demand, or fully automate builds with source code commit and base image update build triggers.
+
+
+[Helm](https://www.helm.sh/) is the de-facto package manager for kubernetes which allows you to define, install, and upgrade even the most complex Kubernetes application.
+
+In this section you will see how you could build and deploy a web and sql Docker image into your OpenShift Container Platform (OCP) cluster via Azure DevOps.
+
+Pre-requisites:
+-   An Azure DevOps account
+-   A Connection endpoint in Azure DevOps to your Azure Container Registry (ACR) to be able to push your images built
+
+
+
+1.  Login to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and create a new Azure DevOps project (private or public).
+![](./MediaFolder/media/image106.JPG)
+![](./MediaFolder/media/image107.JPG)
+
+2.  After the project is created click on the Azure Repos Import the project from [the current repo](https://github.com/palma21/openshiftlab).
+![](./MediaFolder/media/image108.JPG)
+![](./MediaFolder/media/image109.JPG)
+![](./MediaFolder/media/image110.JPG)
+
+3.  After the Import, navigate to Azure Pipelines and create a new Build Pipeline with an Empty template.
+![](./MediaFolder/media/image111.JPG)
+![](./MediaFolder/media/image112.JPG)
+![](./MediaFolder/media/image113.JPG)
+
+4.  Select ***Hosted Ubuntu 1604*** for the Agent Pool and give the pipeline a name.
+![](./MediaFolder/media/image114.JPG)
+
+5.  Add 4 Docker Tasks (Build Web, Push Web, Build SQL, Push SQL). Use your pre-created Azure Container Registry and Connection.
+![](./MediaFolder/media/image115.JPG)
+![](./MediaFolder/media/image116.JPG)
+
+
+CHALLENGE -9: Red Hat Cloud Forms on Azure
 ==========================================
 
 Red Hat Cloud Forms is an open source cloud management solution providing a unified and consistent set of management capabilities across:
