@@ -658,7 +658,6 @@ Pre-requisites:
 ![](./MediaFolder/media/image115.JPG)
 ![](./MediaFolder/media/image116.JPG)
 
-
 CHALLENGE -9: Red Hat Cloud Forms on Azure
 ==========================================
 
