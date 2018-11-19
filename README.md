@@ -657,6 +657,29 @@ Pre-requisites:
 5.  Add 4 Docker Tasks (Build Web, Push Web, Build SQL, Push SQL). Use your pre-created Azure Container Registry and Connection.
 ![](./MediaFolder/media/image115.JPG)
 ![](./MediaFolder/media/image116.JPG)
+![](./MediaFolder/media/image117.JPG)
+![](./MediaFolder/media/image118.JPG)
+![](./MediaFolder/media/image119.JPG)
+
+6.  Add a Helm Tool Installer task to install Helm on the Azure Pipeline Agents.
+![](./MediaFolder/media/image120.JPG)
+![](./MediaFolder/media/image121.JPG)
+
+7.  Add a Helm Deploy task to initialize Helm on the agent.
+![](./MediaFolder/media/image122.JPG)
+
+8.  Add a Kubernetes Service Connection
+    -   Login to the OpenShift Bastion.
+    -   Get the associated kube config file: `cat ~.kube/config` and copy the file content to KubeConfig field on the Azure DevOps Service Connection.
+    -   Copy the Master FQDN and paste it on the Server URL field of the Azure DevOps Service Connection.
+    -   Check `Accept Untrusted Certificates`
+    -   Click `Verify Connection` and make sure the connection is successful
+
+9. Add a Helm Deploy task to create the Helm package.
+
+## Release Pipeline
+
+
 
 CHALLENGE -9: Red Hat Cloud Forms on Azure
 ==========================================
