@@ -633,8 +633,9 @@ In this section you will see how you could build and deploy a web and sql Docker
 
 Pre-requisites:
 -   An Azure DevOps account
--   A Connection endpoint in Azure DevOps to your Azure Container Registry (ACR) to be able to push your images built
+-   A Connection endpoint in Azure DevOps to your Azure Container Registry (ACR) to be able to push the images built
 
+## Build Pipeline
 
 
 1.  Login to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and create a new Azure DevOps project (private or public).
@@ -674,11 +675,75 @@ Pre-requisites:
     -   Copy the Master FQDN and paste it on the Server URL field of the Azure DevOps Service Connection.
     -   Check `Accept Untrusted Certificates`
     -   Click `Verify Connection` and make sure the connection is successful
+![](./MediaFolder/media/image123.JPG)
+![](./MediaFolder/media/image124.JPG)
 
 9. Add a Helm Deploy task to create the Helm package.
+![](./MediaFolder/media/image125.JPG)
+
+10. Publish Helm chart as Artifact
+![](./MediaFolder/media/image126.JPG)
+
+11. Enable Continuous Integration
+![](./MediaFolder/media/image127.JPG)
+
+12. Save the Build Pipeline definition and Queue it.
+![](./MediaFolder/media/image128.JPG)
+![](./MediaFolder/media/image129.JPG)
 
 ## Release Pipeline
 
+Pre-requisites:
+-   An Azure DevOps account
+-   A Connection endpoint in Azure DevOps to your to your OpenShift cluster to be able to deploy your images
+-   An OpenShift project
+-   [Helm/Tiller installed on OpenShift with permissions in that project.](https://blog.osninja.io/using-helm-on-openshift/)
+    -   Make sure to install the same version being used by the agents or install helm from the pipeline.
+-   [Enable images to run with `USER` in the `Dockerfile`](https://docs.openshift.com/container-platform/3.9/admin_guide/manage_scc.html#enable-images-to-run-with-user-in-the-dockerfile)
+
+
+1.  Create a new Release Pipeline with the Helm Release Template
+![](./MediaFolder/media/image130.JPG)
+![](./MediaFolder/media/image131.JPG)
+
+2.  Configure the artifacts available for deployment of the Release Pipeline
+![](./MediaFolder/media/image132.JPG)
+
+
+3.  Configure the pipeline
+- Install Helm 2.10.0
+  - Helm Version Spec = `2.11.0`
+  - Check for latest version of Helm = `true`
+- Helm - init
+  - Command = `init`
+  - Upgrade Tiller = `false`
+  - Arguments = `--client-only`
+- Helm - install charts
+  - Namespace = $(OCPNamespace)
+  - Command = `upgrade`
+  - Chart Type = `File Path`
+  - Chart Path = `$(System.DefaultWorkingDirectory)/**/autotuningdashboard-*.tgz`
+  - Release Name = $(HelmDeploymentName)-$(K8sNamespace)
+  - Install if release not present = `true`
+  - Force = `true`
+  - Wait = `true`
+  - Arguments = `--set sql.password=$(SqlPassword) --set imageCredentials.registry=$(RegistryLoginServer) --set imageCredentials.username=$(RegistryUserName) --set imageCredentials.password=$(RegistryPassword) --set web.image.tag=$(Build.BuildId) --set sql.image.tag=$(Build.BuildId)`
+
+4.  Initialize the database
+
+Once this Release is succesfully deployed/exececuted and for the purpose of this demo you should manually run this command to initialize properly the database:
+```
+SQL_POD=$(kubectl get pods -l app=sql -n <your-namespace> -o jsonpath='{.items[0].metadata.name}')
+kubectl exec $SQL_POD /usr/share/wwi-db-setup/init-and-restore-db.sh
+```
+
+5.  Expose the Web App
+
+To be able to publicly browse your web app just deployed you will have to create a `Route`. 
+```
+oc expose svc/web --name=web --namespace <your-namespace>
+oc get route --namespace <your-namespace>
+```
 
 
 CHALLENGE -9: Red Hat Cloud Forms on Azure
