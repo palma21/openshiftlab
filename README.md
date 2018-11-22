@@ -639,34 +639,53 @@ Pre-requisites:
 
 
 1.  Login to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and create a new Azure DevOps project (private or public).
+
 ![](./MediaFolder/media/image106.jpg)
+
 ![](./MediaFolder/media/image107.jpg)
 
 2.  After the project is created click on the Azure Repos Import the project from [the current repo](https://github.com/palma21/openshiftlab).
+
 ![](./MediaFolder/media/image108.jpg)
+
 ![](./MediaFolder/media/image109.jpg)
+
 ![](./MediaFolder/media/image110.jpg)
 
 3.  After the Import, navigate to Azure Pipelines and create a new Build Pipeline with an Empty template.
+
 ![](./MediaFolder/media/image111.jpg)
+
 ![](./MediaFolder/media/image112.jpg)
+
 ![](./MediaFolder/media/image113.jpg)
 
 4.  Select ***Hosted Ubuntu 1604*** for the Agent Pool and give the pipeline a name.
+
 ![](./MediaFolder/media/image114.jpg)
 
 1.  Add 4 Docker Tasks (Build Web, Push Web, Build SQL, Push SQL). Use your pre-created Azure Container Registry and Connection.
+
 ![](./MediaFolder/media/image115.jpg)
+
 ![](./MediaFolder/media/image116.jpg)
+
+
 ![](./MediaFolder/media/image117.jpg)
+
+
 ![](./MediaFolder/media/image118.jpg)
+
 ![](./MediaFolder/media/image119.jpg)
 
 6.  Add a Helm Tool Installer task to install Helm on the Azure Pipeline Agents.
+
 ![](./MediaFolder/media/image120.jpg)
+
 ![](./MediaFolder/media/image121.jpg)
 
 7.  Add a Helm Deploy task to initialize Helm on the agent.
+
 ![](./MediaFolder/media/image122.jpg)
 
 8.  Add a Kubernetes Service Connection
@@ -675,20 +694,27 @@ Pre-requisites:
     -   Copy the Master FQDN and paste it on the Server URL field of the Azure DevOps Service Connection.
     -   Check `Accept Untrusted Certificates`
     -   Click `Verify Connection` and make sure the connection is successful
+
 ![](./MediaFolder/media/image123.jpg)
+
 ![](./MediaFolder/media/image124.jpg)
 
 9. Add a Helm Deploy task to create the Helm package.
+
 ![](./MediaFolder/media/image125.jpg)
 
 10. Publish Helm chart as Artifact
+
 ![](./MediaFolder/media/image126.jpg)
 
 11. Enable Continuous Integration
+
 ![](./MediaFolder/media/image127.jpg)
 
 12. Save the Build Pipeline definition and Queue it.
+
 ![](./MediaFolder/media/image128.jpg)
+
 ![](./MediaFolder/media/image129.jpg)
 
 ## Release Pipeline
@@ -703,10 +729,13 @@ Pre-requisites:
 
 
 1.  Create a new Release Pipeline with the Helm Release Template
+
 ![](./MediaFolder/media/image130.jpg)
+
 ![](./MediaFolder/media/image131.jpg)
 
 2.  Configure the artifacts available for deployment of the Release Pipeline
+
 ![](./MediaFolder/media/image132.jpg)
 
 
