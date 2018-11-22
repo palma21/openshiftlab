@@ -639,7 +639,7 @@ Pre-requisites:
 
 
 1.  Login to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and create a new Azure DevOps project (private or public).
-![](./MediaFolder/media/image106.JPG)
+<img src="./MediaFolder/media/image106.JPG" width="800" />![](./MediaFolder/media/image106.JPG)
 ![](./MediaFolder/media/image107.JPG)
 
 2.  After the project is created click on the Azure Repos Import the project from [the current repo](https://github.com/palma21/openshiftlab).
@@ -653,7 +653,7 @@ Pre-requisites:
 ![](./MediaFolder/media/image113.JPG)
 
 4.  Select ***Hosted Ubuntu 1604*** for the Agent Pool and give the pipeline a name.
-![](./MediaFolder/media/image114.JPG)
+<img src="./MediaFolder/media/image114.JPG" width="800" />![](./MediaFolder/media/image114.JPG)
 
 5.  Add 4 Docker Tasks (Build Web, Push Web, Build SQL, Push SQL). Use your pre-created Azure Container Registry and Connection.
 ![](./MediaFolder/media/image115.JPG)
