@@ -210,7 +210,7 @@ To create an *application*, you must first create a new *project*, then select a
 
 2.  Browse to *openshift/ruby-ex* repository and fork it into your *github* account
 
-![](./MediaFolder/media/image23.PNG)
+![](./MediaFolder/media/image23.png)
  
 
 1.  From your browser, visit the OpenShift web console at *https://FQDN-master-node:8443*. The web site, uses a self-signed certificate, so if prompted, continue and ignore the browser warning.
@@ -307,7 +307,7 @@ To set up a *webhook* for your application:
 
 6.  Click Webhooks & Services and Click Add webhook.
 
-![](./MediaFolder/media/image37.PNG)
+![](./MediaFolder/media/image37.png)
 
 7.  Paste your *webhook* URL into the Payload URL field.
 
