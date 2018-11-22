@@ -640,7 +640,7 @@ Pre-requisites:
 
 1.  Login to [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) and create a new Azure DevOps project (private or public).
 <img src="./MediaFolder/media/image106.JPG" width="800" />![](./MediaFolder/media/image106.JPG)
-![](./MediaFolder/media/image107.JPG)
+![](./MediaFolder/media/image107.jpg)
 
 2.  After the project is created click on the Azure Repos Import the project from [the current repo](https://github.com/palma21/openshiftlab).
 ![](./MediaFolder/media/image108.JPG)
