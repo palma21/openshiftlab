@@ -740,7 +740,7 @@ Pre-requisites:
 
 
 3.  Configure the pipeline
-- Install Helm 2.10.0
+- Install Helm 2.11.0
   - Helm Version Spec = `2.11.0`
   - Check for latest version of Helm = `true`
 - Helm - init
@@ -752,13 +752,21 @@ Pre-requisites:
   - Command = `upgrade`
   - Chart Type = `File Path`
   - Chart Path = `$(System.DefaultWorkingDirectory)/**/autotuningdashboard-*.tgz`
-  - Release Name = $(HelmDeploymentName)-$(K8sNamespace)
+  - Release Name = $(HelmDeploymentName)-$(OCPNamespace)
   - Install if release not present = `true`
   - Force = `true`
   - Wait = `true`
   - Arguments = `--set sql.password=$(SqlPassword) --set imageCredentials.registry=$(RegistryLoginServer) --set imageCredentials.username=$(RegistryUserName) --set imageCredentials.password=$(RegistryPassword) --set web.image.tag=$(Build.BuildId) --set sql.image.tag=$(Build.BuildId)`
 
-4.  Initialize the database
+4.  Add the Variables used at the Release Pipeline definition
+- RegistryLoginServer = your-acr-name.azurecr.io
+- RegistryUserName = your-acr-username-or-sp-clientid
+- RegistryPassword = your-acr-password-or-sp-password
+- HelmDeploymentName = autotuningdashboard
+- OCPNamespace = your-ocp-project
+- SqlPassword = your-sql-password
+
+5.  Initialize the database
 
 Once this Release is succesfully deployed/exececuted and for the purpose of this demo you should manually run this command to initialize properly the database:
 ```
